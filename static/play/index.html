@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>幻方联机</title>
+    <style>
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        .container {
+            background-color: white;
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .tab-container {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+        }
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            background-color: #eee;
+            border-radius: 5px 5px 0 0;
+            margin-right: 5px;
+        }
+        .tab.active {
+            background-color: #3498db;
+            color: white;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .announcement {
+            background-color: #f8f9fa;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 0 4px 4px 0;
+        }
+        .config-area {
+            background-color: #f0f0f0;
+            padding: 15px;
+            border-radius: 4px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            margin-bottom: 20px;
+            overflow-x: auto;
+            max-height: 300px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="text"], input[type="number"], select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .protocol-tag {
+            display: inline-block;
+            padding: 3px 6px;
+            border-radius: 3px;
+            font-size: 12px;
+            margin-left: 10px;
+        }
+        .udp-tag {
+            background-color: #e74c3c;
+            color: white;
+        }
+        .tcp-tag {
+            background-color: #2ecc71;
+            color: white;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            margin-right: 10px;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        .buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        .copy-btn {
+            background-color: #2ecc71;
+        }
+        .copy-btn:hover {
+            background-color: #27ae60;
+        }
+        .random-btn {
+            background-color: #9b59b6;
+        }
+        .random-btn:hover {
+            background-color: #8e44ad;
+        }
+        .switch-btn {
+            background-color: #e67e22;
+        }
+        .switch-btn:hover {
+            background-color: #d35400;
+        }
+        .proxy-item {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+        }
+        .proxy-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        .remove-proxy {
+            color: #e74c3c;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Minecraft FRP</h1>
+        
+        <div class="announcement">
+            <h3>公告区</h3>
+            <p id="announcement-text">欢迎使用联机配置生成器！配置如果没有作用请重新生成一个 <a href="https://www.now61.cn/s/vDWacB" target="_blank">点我下载联机软件</a> </p>
+        </div>
+        
+        <div class="tab-container">
+            <div class="tab active" onclick="switchTab('mobile')">手机配置（INI格式）</div>
+            <div class="tab" onclick="switchTab('pc')">电脑配置（TOML格式）</div>
+        </div>
+        
+        <!-- 手机配置区域 -->
+        <div id="mobile-config" class="tab-content active">
+            <div class="form-group">
+                <label for="mobile-server-addr">服务器地址 (server_addr):</label>
+                <input type="text" id="mobile-server-addr" value="121.62.17.181">
+            </div>
+            
+            <div class="form-group">
+                <label for="mobile-server-port">服务器端口 (server_port):</label>
+                <input type="number" id="mobile-server-port" value="65502">
+            </div>
+            
+            <div class="form-group">
+                <label for="mobile-tunnel-name">隧道名称:</label>
+                <input type="text" id="mobile-tunnel-name" placeholder="将自动生成随机名称">
+            </div>
+            
+            <div class="form-group">
+                <label for="mobile-protocol-type">隧道类型:</label>
+                <select id="mobile-protocol-type" onchange="updateMobilePort()">
+                    <option value="udp">UDP (基岩版/携带版联机)</option>
+                    <option value="tcp">TCP (Java版联机)</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="mobile-local-ip">本地IP (local_ip):</label>
+                <input type="text" id="mobile-local-ip" value="127.0.0.1">
+            </div>
+            
+            <div class="form-group">
+                <label for="mobile-local-port">本地端口 (local_port):</label>
+                <input type="number" id="mobile-local-port" value="19132">
+            </div>
+            
+            <div class="form-group">
+                <label for="mobile-remote-port">远程端口 (remote_port):</label>
+                <input type="number" id="mobile-remote-port" placeholder="将自动生成随机端口(10000-50000)">
+            </div>
+            
+            <div class="buttons">
+                <button class="random-btn" onclick="generateRandomMobileConfig()">生成随机配置</button>
+                <button onclick="generateMobileConfig()">生成配置</button>
+                <button class="copy-btn" onclick="copyConfig('mobile-config-output')">复制配置</button>
+            </div>
+            
+            <h3>生成的FRP配置（手机版）:</h3>
+            <div class="config-area" id="mobile-config-output">
+[common]
+server_addr = 121.62.17.181
+server_port = 65502
+
+[Ntesyplsi]
+type = udp
+local_ip = 127.0.0.1
+local_port = 19132
+remote_port = 50500
+            </div>
+        </div>
+        
+        <!-- 电脑配置区域 -->
+        <div id="pc-config" class="tab-content">
+            <div class="form-group">
+                <label for="pc-server-addr">服务器地址 (server_addr):</label>
+                <input type="text" id="pc-server-addr" value="121.62.17.181">
+            </div>
+            
+            <div class="form-group">
+                <label for="pc-server-port">服务器端口 (server_port):</label>
+                <input type="number" id="pc-server-port" value="65502">
+            </div>
+            
+            <div class="form-group">
+                <label for="pc-auth-token">认证令牌 (token):</label>
+                <input type="text" id="pc-auth-token" value="your_password" placeholder="设置安全令牌">
+            </div>
+            
+            <div id="proxies-container">
+                <!-- 代理配置项将在这里动态添加 -->
+            </div>
+            
+            <div class="buttons">
+                <button onclick="addProxyConfig()">添加代理配置</button>
+                <button class="random-btn" onclick="generateRandomPcConfig()">生成随机配置</button>
+                <button onclick="generatePcConfig()">生成配置</button>
+                <button class="copy-btn" onclick="copyConfig('pc-config-output')">复制配置</button>
+            </div>
+            
+            <h3>生成的FRP配置（电脑版）:</h3>
+            <div class="config-area" id="pc-config-output">
+# frpc.toml - 电脑客户端配置
+[common]
+server_addr = "121.62.17.181"
+server_port = 65502
+auth.method = "token"
+auth.token = "your_password"
+
+# Minecraft Java版TCP穿透配置
+[[proxies]]
+name = "Minecraft_Java"
+type = "tcp"
+local_ip = "127.0.0.1"
+local_port = 25565
+remote_port = 25575
+
+# Minecraft基岩版UDP穿透配置
+[[proxies]]
+name = "Minecraft_Bedrock"
+type = "udp"
+local_ip = "127.0.0.1"
+local_port = 19132
+remote_port = 50500
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 随机名称生成器
+        function generateRandomName() {
+            const consonants = 'bcdfghjklmnpqrstvwxyz';
+            const vowels = 'aeiou';
+            let name = '';
+            
+            // 生成5-8个字母的名称
+            const length = Math.floor(Math.random() * 4) + 5;
+            for (let i = 0; i < length; i++) {
+                if (i % 2 === 0) {
+                    name += consonants.charAt(Math.floor(Math.random() * consonants.length));
+                } else {
+                    name += vowels.charAt(Math.floor(Math.random() * vowels.length));
+                }
+            }
+            
+            // 首字母大写
+            return name.charAt(0).toUpperCase() + name.slice(1);
+        }
+        
+        // 生成随机端口(10000-50000)
+        function generateRandomPort() {
+            return Math.floor(Math.random() * 40001) + 10000;
+        }
+        
+        // 切换标签页
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            document.querySelector(`.tab[onclick="switchTab('${tabName}')"]`).classList.add('active');
+            document.getElementById(`${tabName}-config`).classList.add('active');
+        }
+        
+        // 更新手机端默认端口
+        function updateMobilePort() {
+            const protocolType = document.getElementById('mobile-protocol-type').value;
+            const localPortInput = document.getElementById('mobile-local-port');
+            
+            if (protocolType === 'tcp') {
+                localPortInput.value = '25565';
+            } else {
+                localPortInput.value = '19132';
+            }
+        }
+        
+        // 添加代理配置项
+        function addProxyConfig() {
+            const container = document.getElementById('proxies-container');
+            const proxyId = Date.now();
+            
+            const proxyItem = document.createElement('div');
+            proxyItem.className = 'proxy-item';
+            proxyItem.id = `proxy-${proxyId}`;
+            
+            proxyItem.innerHTML = `
+                <div class="proxy-header">
+                    <h4>代理配置 #${container.children.length + 1}</h4>
+                    <span class="remove-proxy" onclick="removeProxy('${proxyId}')">× 删除</span>
+                </div>
+                <div class="form-group">
+                    <label for="proxy-name-${proxyId}">代理名称:</label>
+                    <input type="text" id="proxy-name-${proxyId}" placeholder="如 Minecraft_Java">
+                </div>
+                <div class="form-group">
+                    <label for="proxy-type-${proxyId}">协议类型:</label>
+                    <select id="proxy-type-${proxyId}" onchange="updateProxyPort('${proxyId}')">
+                        <option value="tcp">TCP (Java版联机)</option>
+                        <option value="udp">UDP (基岩版/携带版联机)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="proxy-local-ip-${proxyId}">本地IP (local_ip):</label>
+                    <input type="text" id="proxy-local-ip-${proxyId}" value="127.0.0.1">
+                </div>
+                <div class="form-group">
+                    <label for="proxy-local-port-${proxyId}">本地端口 (local_port):</label>
+                    <input type="number" id="proxy-local-port-${proxyId}" placeholder="如 19132">
+                </div>
+                <div class="form-group">
+                    <label for="proxy-remote-port-${proxyId}">远程端口 (remote_port):</label>
+                    <input type="number" id="proxy-remote-port-${proxyId}" placeholder="将自动生成随机端口(10000-50000)">
+                </div>
+            `;
+            
+            container.appendChild(proxyItem);
+        }
+        
+        // 更新代理默认端口
+        function updateProxyPort(proxyId) {
+            const protocolType = document.getElementById(`proxy-type-${proxyId}`).value;
+            const localPortInput = document.getElementById(`proxy-local-port-${proxyId}`);
+            
+            if (protocolType === 'tcp') {
+                localPortInput.value = '25565';
+            } else {
+                localPortInput.value = '19132';
+            }
+        }
+        
+        // 删除代理配置项
+        function removeProxy(proxyId) {
+            const proxyItem = document.getElementById(`proxy-${proxyId}`);
+            if (proxyItem) {
+                proxyItem.remove();
+            }
+        }
+        
+        // 生成随机手机配置
+        function generateRandomMobileConfig() {
+            document.getElementById('mobile-tunnel-name').value = generateRandomName();
+            document.getElementById('mobile-remote-port').value = generateRandomPort();
+            generateMobileConfig();
+        }
+        
+        // 生成手机配置
+        function generateMobileConfig() {
+            const serverAddr = document.getElementById('mobile-server-addr').value;
+            const serverPort = document.getElementById('mobile-server-port').value;
+            const tunnelName = document.getElementById('mobile-tunnel-name').value || generateRandomName();
+            const protocolType = document.getElementById('mobile-protocol-type').value;
+            const localIp = document.getElementById('mobile-local-ip').value;
+            const localPort = document.getElementById('mobile-local-port').value;
+            const remotePort = document.getElementById('mobile-remote-port').value || generateRandomPort();
+            
+            const config = `[common]
+server_addr = ${serverAddr}
+server_port = ${serverPort}
+
+[${tunnelName}]
+type = ${protocolType}
+local_ip = ${localIp}
+local_port = ${localPort}
+remote_port = ${remotePort}`;
+            
+            document.getElementById('mobile-config-output').textContent = config;
+        }
+        
+        // 生成随机电脑配置
+        function generateRandomPcConfig() {
+            // 清空现有代理配置
+            document.getElementById('proxies-container').innerHTML = '';
+            
+            // 添加两个默认代理配置
+            addProxyConfig();
+            addProxyConfig();
+            
+            // 设置第一个代理为TCP Minecraft Java版
+            setTimeout(() => {
+                document.getElementById('proxy-name-1').value = 'Minecraft_Java';
+                document.getElementById('proxy-type-1').value = 'tcp';
+                document.getElementById('proxy-local-port-1').value = '25565';
+                document.getElementById('proxy-remote-port-1').value = generateRandomPort();
+                
+                // 设置第二个代理为UDP Minecraft基岩版
+                document.getElementById('proxy-name-2').value = 'Minecraft_Bedrock';
+                document.getElementById('proxy-type-2').value = 'udp';
+                document.getElementById('proxy-local-port-2').value = '19132';
+                document.getElementById('proxy-remote-port-2').value = generateRandomPort();
+                
+                generatePcConfig();
+            }, 100);
+        }
+        
+        // 生成电脑配置
+        function generatePcConfig() {
+            const serverAddr = document.getElementById('pc-server-addr').value;
+            const serverPort = document.getElementById('pc-server-port').value;
+            const authToken = document.getElementById('pc-auth-token').value;
+            
+            let config = `# frpc.toml - 电脑客户端配置
+[common]
+server_addr = "${serverAddr}"
+server_port = ${serverPort}
+auth.method = "token"
+auth.token = "${authToken}"\n`;
+            
+            // 收集所有代理配置
+            const proxyItems = document.querySelectorAll('.proxy-item');
+            proxyItems.forEach((item, index) => {
+                const proxyId = item.id.split('-')[1];
+                const name = document.getElementById(`proxy-name-${proxyId}`).value || `Proxy_${index+1}`;
+                const type = document.getElementById(`proxy-type-${proxyId}`).value;
+                const localIp = document.getElementById(`proxy-local-ip-${proxyId}`).value;
+                const localPort = document.getElementById(`proxy-local-port-${proxyId}`).value;
+                const remotePort = document.getElementById(`proxy-remote-port-${proxyId}`).value || generateRandomPort();
+                
+                config += `\n# ${name}配置 (${type === 'tcp' ? 'Java版' : '基岩版'})
+[[proxies]]
+name = "${name}"
+type = "${type}"
+local_ip = "${localIp}"
+local_port = ${localPort}
+remote_port = ${remotePort}\n`;
+            });
+            
+            document.getElementById('pc-config-output').textContent = config;
+        }
+        
+        // 复制配置
+        function copyConfig(elementId) {
+            const configOutput = document.getElementById(elementId);
+            const range = document.createRange();
+            range.selectNode(configOutput);
+            window.getSelection().removeAllRanges();
+            window.getSelection().addRange(range);
+            document.execCommand('copy');
+            window.getSelection().removeAllRanges();
+            
+            alert('配置已复制到剪贴板！');
+        }
+        
+        // 初始化
+        window.onload = function() {
+            generateRandomMobileConfig();
+            generateRandomPcConfig();
+        };
+    </script>
+</body>
+</html>

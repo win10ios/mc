@@ -1,0 +1,98 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="renderer" content="webkit">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <script type="text/javascript" src="/static/pixi.min.js"></script>
+  <script type="text/javascript" src="/static/main.js"></script>
+  <link rel="stylesheet" href="/static/font.css">
+  <title>MINECRAFT 玩家社区</title>
+
+  <!-- 百度统计 -->
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?9c32ebd42f2dce43bf3ace97f3143194";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+  <style>
+    /* 原有样式保持不变 */
+    canvas { display:block; position:fixed; top:0; left:0; z-index:-2; pointer-events:none; }
+    a:hover,a:link,a:visited,a:active,a:focus { text-decoration:none; }
+    button,input,input:focus { outline:none; border:none; }
+    a,button,input { -webkit-tap-highlight-color:rgba(0,0,0,0); }
+    *{ -webkit-user-select:none; -moz-user-select:none; -ms-user-select:none; user-select:none; }
+    *{ box-sizing:border-box; -webkit-text-size-adjust:none; }
+    img { border:0; vertical-align:middle; }
+    body { margin:0; padding:0; border:0; display:flex; align-items:center; justify-content:center; height:100vh; width:100vw; background:radial-gradient(#619bff,#e0e0e3); }
+    .main { width:35%; display:flex; flex-direction:column; align-items:center; }
+    @media screen and (max-width:1024px){ .main { width:45%; } }
+    @media screen and (max-width:768px){ .main { width:50%; } }
+    @media screen and (max-width:540px){ .main { width:60% !important; } }
+    @media screen and (max-width:480px){ .main { width:90% !important; } }
+    @media screen and (max-width:360px){ .main { width:100% !important; } }
+    img { border:3px solid rgba(255,255,255,.8); border-radius:50%; box-shadow:0 0 20px 5px #e6e8ea; transition:.4s ease-in-out; }
+    h1 { font-family:'Noto Serif SC',serif; color:#fff; font-size:1.8rem; line-height:2em; font-weight:800; }
+    h2 { margin:0; color:#ffffffa3; padding-bottom:45px; font-size:18px; }
+    ul { margin:0; padding:0; position:relative; list-style-type:none; display:inline-flex; width:100%; justify-content:space-around; border-bottom:2px solid hsla(0,0%,100%,.1); border-top:2px solid hsla(0,0%,100%,.1); height:80px; align-items:center; max-width:85%; }
+    li { display:flex; transition:all .2s; width:100%; border-left:1px solid hsla(0,0%,100%,.1); border-right:1px solid hsla(0,0%,100%,.1); height:40px; align-items:center; justify-content:center; }
+    a { font-size:1.2rem; color:#fff; transition:all .2s; cursor:pointer; }
+    a:hover { color:#fff !important; text-shadow:0 0 20px #ffffff; }
+
+    /* 新增底部信息样式 */
+    .footer-info {
+      position: fixed;
+      bottom: 10px;
+      font-size: 12px;
+      color: rgba(255,255,255,.6);
+    }
+    .footer-info a {
+      color: rgba(255,255,255,.9);
+      text-decoration: underline;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="main">
+    <img src="tx.png" width="130" height="130" alt="avatar">
+    <h1>Minecraft 玩家社区</h1>
+    <h2>全版本原版远程联机!</h2>
+
+    <ul>
+      <li><a href="https://blog.999845.xyz/"><span>博客</span></a></li>
+      <li><a href="https://mc.999845.xyz/play"><span>FRP</span></a></li>
+      <li><a href="https://cloud.999845.xyz/"><span>资源站</span></a></li>
+      <li><a href="https://blog.999845.xyz/2024/07/14/%E6%98%9F%E7%A9%BA%E8%81%94%E6%9C%BA%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B%E3%80%90%E6%98%9F%E7%A9%BA%E9%85%8D%E7%BD%AE%E7%AF%87%E3%80%91/"><span>联机</span></a></li>
+    </ul>
+  </div>
+
+  <!-- 底部信息 -->
+  <div class="footer-info">
+    <a href="https://www.langlangy.cn/?i12c63b" target="_blank">浪浪云提供云计算支持</a>
+  </div>
+
+  <!-- 原有脚本 -->
+  <script>
+    document.onkeydown = function () {
+      if (event.ctrlKey && window.event.keyCode === 85) return false;
+      if (window.event && window.event.keyCode === 123) {
+        event.keyCode = 0;
+        event.returnValue = false;
+      }
+    };
+    document.body.oncontextmenu = function () {
+      self.event.returnValue = false;
+    };
+    document.addEventListener('contextmenu', e => e.preventDefault());
+    document.addEventListener('copy', e => e.preventDefault());
+    document.addEventListener('selectstart', e => e.preventDefault());
+  </script>
+</body>
+</html>
