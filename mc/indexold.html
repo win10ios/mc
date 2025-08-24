@@ -1,0 +1,879 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <title>幻方MC下载站 - 兼容版</title>
+    <style type="text/css">
+        /* 基础样式 - 兼容旧浏览器 */
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #2c3e50;
+            color: #ecf0f1;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 94%;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+        
+        /* 头部样式 */
+        .header {
+            background: #1a2a6c;
+            padding: 15px 0;
+            text-align: center;
+            border-bottom: 5px solid #fdbb2d;
+        }
+        
+        .header h1 {
+            font-size: 24px;
+            margin: 0;
+            color: #fff;
+            text-shadow: 2px 2px 2px #000;
+        }
+        
+        .header p {
+            font-size: 14px;
+            margin: 5px 0 0;
+            color: #ddd;
+        }
+        
+        /* 导航样式 */
+        .nav {
+            background: #34495e;
+            padding: 10px 0;
+            margin: 15px 0;
+            text-align: center;
+            border-radius: 5px;
+        }
+        
+        .nav-btn {
+            display: inline-block;
+            padding: 8px 15px;
+            margin: 0 5px;
+            background: #3498db;
+            color: white;
+            text-decoration: none;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        
+        .nav-btn.active, .nav-btn:hover {
+            background: #2980b9;
+        }
+        
+        /* 内容区域样式 */
+        .content {
+            background: #ecf0f1;
+            color: #2c3e50;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        
+        .content h2 {
+            font-size: 20px;
+            margin: 0 0 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #3498db;
+            color: #2c3e50;
+        }
+        
+        /* 版本选项卡 */
+        .version-tabs {
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .version-btn {
+            display: inline-block;
+            padding: 6px 12px;
+            margin: 0 5px 5px 0;
+            background: #bdc3c7;
+            color: #2c3e50;
+            text-decoration: none;
+            border: none;
+            border-radius: 3px;
+            font-size: 13px;
+            cursor: pointer;
+        }
+        
+        .version-btn.active, .version-btn:hover {
+            background: #3498db;
+            color: white;
+        }
+        
+        /* 应用列表样式 */
+        .app-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .app-item {
+            background: #fff;
+            border: 1px solid #bdc3c7;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            padding: 15px;
+        }
+        
+        .app-header {
+            margin: 0 0 10px;
+        }
+        
+        .app-name {
+            font-size: 18px;
+            color: #2c3e50;
+            margin: 0;
+        }
+        
+        .app-version {
+            font-size: 14px;
+            color: #7f8c8d;
+            margin: 5px 0;
+        }
+        
+        .app-desc {
+            font-size: 14px;
+            color: #34495e;
+            margin: 10px 0;
+        }
+        
+        .app-features {
+            margin: 10px 0;
+        }
+        
+        .feature-tag {
+            display: inline-block;
+            background: #e74c3c;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 12px;
+            margin: 0 5px 5px 0;
+        }
+        
+        .app-req {
+            font-size: 13px;
+            color: #7f8c8d;
+            margin: 10px 0;
+        }
+        
+        .download-btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background: #27ae60;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        
+        .download-btn:hover {
+            background: #219653;
+        }
+        
+        /* 模态框样式 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+        }
+        
+        .modal-content {
+            position: relative;
+            background: #fff;
+            margin: 10% auto;
+            padding: 20px;
+            width: 90%;
+            max-width: 500px;
+            border-radius: 5px;
+            color: #2c3e50;
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 24px;
+            color: #7f8c8d;
+            cursor: pointer;
+        }
+        
+        .close-btn:hover {
+            color: #2c3e50;
+        }
+        
+        .modal-title {
+            font-size: 20px;
+            margin: 0 0 15px;
+            color: #2c3e50;
+        }
+        
+        .info-item {
+            margin-bottom: 10px;
+        }
+        
+        .info-label {
+            font-weight: bold;
+            color: #2c3e50;
+            display: inline-block;
+            width: 70px;
+        }
+        
+        .info-value {
+            color: #34495e;
+        }
+        
+        .modal-download {
+            display: block;
+            padding: 10px;
+            background: #27ae60;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-top: 15px;
+            font-size: 16px;
+        }
+        
+        .modal-download:hover {
+            background: #219653;
+        }
+        
+        /* 页脚样式 */
+        .footer {
+            background: #1a2a6c;
+            padding: 15px 0;
+            text-align: center;
+            border-top: 5px solid #fdbb2d;
+            margin-top: 20px;
+        }
+        
+        .footer-tabs {
+            margin-bottom: 10px;
+        }
+        
+        .footer-tab {
+            display: inline-block;
+            padding: 8px 15px;
+            margin: 0 5px;
+            background: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .footer-tab.active, .footer-tab:hover {
+            background: #2980b9;
+        }
+        
+        .copyright {
+            font-size: 12px;
+            color: #bdc3c7;
+            margin-top: 10px;
+        }
+        
+        /* 响应式调整 */
+        @media screen and (max-width: 600px) {
+            .nav-btn {
+                display: block;
+                width: 90%;
+                margin: 5px auto;
+            }
+            
+            .version-btn {
+                display: block;
+                width: 90%;
+                margin: 5px auto;
+            }
+            
+            .modal-content {
+                margin: 20% auto;
+                width: 85%;
+            }
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script>
+        // HTML5 兼容性代码
+        document.createElement('header');
+        document.createElement('nav');
+        document.createElement('section');
+        document.createElement('article');
+        document.createElement('aside');
+        document.createElement('footer');
+    </script>
+    <![endif]-->
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>幻方MC下载站</h1>
+            <p>提供MCPE各版本客户端下载资源 - 兼容旧设备版</p>
+        </div>
+        
+        <div class="nav">
+            <a href="#" class="nav-btn active" onclick="switchTab('android'); return false;">安卓版本</a>
+            <a href="#" class="nav-btn" onclick="switchTab('ios'); return false;">iOS版本</a>
+        </div>
+        
+        <!-- 安卓内容区域 -->
+        <div id="android-section" class="content">
+            <h2>安卓版本下载</h2>
+            
+            <div class="version-tabs">
+                <a href="#" class="version-btn active" onclick="switchVersion('0.14.1'); return false;">0.14.1</a>
+                <a href="#" class="version-btn" onclick="switchVersion('0.14.2'); return false;">0.14.2</a>
+                <a href="#" class="version-btn" onclick="switchVersion('0.14.3'); return false;">0.14.3</a>
+            </div>
+            
+            <!-- 0.14.1版本应用 -->
+            <div id="version-0.14.1" class="version-content">
+                <ul class="app-list">
+                    <li class="app-item">
+                        <div class="app-header">
+                            <h3 class="app-name">Mydream Client</h3>
+                            <div class="app-version">版本: 1.21.2</div>
+                        </div>
+                        <p class="app-desc">梦想客户端，提供独特的游戏体验</p>
+                        <div class="app-features">
+                            <span class="feature-tag">光影支持</span>
+                            <span class="feature-tag">材质包</span>
+                            <span class="feature-tag">多版本兼容</span>
+                        </div>
+                        <p class="app-req"><strong>适配要求:</strong> Android 4.0及以上</p>
+                        <button class="download-btn" onclick="showDownload('Mydream Client', '1.21.2', 'https://wwap.lanzoum.com/igwj332oohja', '672v')">下载应用</button>
+                    </li>
+                    
+                    <li class="app-item">
+                        <div class="app-header">
+                            <h3 class="app-name">生存斧材质光影共存</h3>
+                            <div class="app-version">版本: 2.2</div>
+                        </div>
+                        <p class="app-desc">生存斧材质与光影效果共存版本</p>
+                        <div class="app-features">
+                            <span class="feature-tag">材质光影</span>
+                            <span class="feature-tag">生存优化</span>
+                            <span class="feature-tag">性能提升</span>
+                        </div>
+                        <p class="app-req"><strong>适配要求:</strong> Android 4.2及以上</p>
+                        <button class="download-btn" onclick="showDownload('生存斧材质光影共存', '2.2', 'https://wwap.lanzoum.com/iGi8e32oogdi', 'dfsg')">下载应用</button>
+                    </li>
+                    
+                    <li class="app-item">
+                        <div class="app-header">
+                            <h3 class="app-name">生存斧Faithful x32材质光影版</h3>
+                            <div class="app-version">版本: 1.0</div>
+                        </div>
+                        <p class="app-desc">Faithful x32材质配合光影效果</p>
+                        <div class="app-features">
+                            <span class="feature-tag">高清材质</span>
+                            <span class="feature-tag">光影效果</span>
+                            <span class="feature-tag">Faithful x32</span>
+                        </div>
+                        <p class="app-req"><strong>适配要求:</strong> Android 4.4及以上</p>
+                        <button class="download-btn" onclick="showDownload('生存斧Faithful x32材质光影版', '1.0', 'https://wwap.lanzoum.com/i9Q9332oofod', '85ru')">下载应用</button>
+                    </li>
+                    
+                    <li class="app-item">
+                        <div class="app-header">
+                            <h3 class="app-name">受伤无抖动</h3>
+                            <div class="app-version">版本: 0.14.1</div>
+                        </div>
+                        <p class="app-desc">移除受伤时的屏幕抖动效果</p>
+                        <div class="app-features">
+                            <span class="feature-tag">无抖动</span>
+                            <span class="feature-tag">原版优化</span>
+                            <span class="feature-tag">体验改善</span>
+                        </div>
+                        <p class="app-req"><strong>适配要求:</strong> Android 4.0及以上</p>
+                        <button class="download-btn" onclick="showDownload('受伤无抖动', '0.14.1', 'https://wwap.lanzoum.com/idIWH32ooesb', 'esws')">下载应用</button>
+                    </li>
+                    
+                    <li class="app-item">
+                        <div class="app-header">
+                            <h3 class="app-name">原版客户端</h3>
+                            <div class="app-version">版本: 0.14.1</div>
+                        </div>
+                        <p class="app-desc">官方原版客户端，无任何修改</p>
+                        <div class="app-features">
+                            <span class="feature-tag">原版体验</span>
+                            <span class="feature-tag">稳定运行</span>
+                            <span class="feature-tag">无修改</span>
+                        </div>
+                        <p class="app-req"><strong>适配要求:</strong> Android 4.0及以上</p>
+                        <button class="download-btn" onclick="showDownload('原版客户端', '0.14.1', 'https://wwap.lanzoum.com/iu8IJ32ooe5i', '3g19')">下载应用</button>
+                    </li>
+                    
+                    <li class="app-item">
+                        <div class="app-header">
+                            <h3 class="app-name">流量端</h3>
+                            <div class="app-version">版本: 0.14.1</div>
+                        </div>
+                        <p class="app-desc">2024最新版，支持流量连接</p>
+                        <div class="app-features">
+                            <span class="feature-tag">流量连接</span>
+                            <span class="feature-tag">安卓14专用</span>
+                            <span class="feature-tag">最新优化</span>
+                        </div>
+                        <p class="app-req"><strong>适配要求:</strong> Android 14专用</p>
+                        <button class="download-btn" onclick="showDownload('流量端', '0.14.1', 'https://wwap.lanzoum.com/i1XHc32oodkh', 'ch25')">下载应用</button>
+                    </li>
+                </ul>
+            </div>
+            
+            <!-- 0.14.2版本应用 -->
+            <div id="version-0.14.2" class="version-content" style="display:none;">
+                <ul class="app-list">
+                    <li class="app-item">
+                        <div class="app-header">
+                            <h3 class="app-name">受伤无抖动共存</h3>
+                            <div class="app-version">版本: 0.14.2</div>
+                        </div>
+                        <p class="app-desc">移除受伤时的屏幕抖动效果，支持共存</p>
+                        <div class="app-features">
+                            <span class="feature-tag">无抖动</span>
+                            <span class="feature-tag">共存版</span>
+                            <span class="feature-tag">体验改善</span>
+                        </div>
+                        <p class="app-req"><strong>适配要求:</strong> Android 4.0及以上</p>
+                        <button class="download-btn" onclick="showDownload('受伤无抖动共存', '0.14.2', 'https://wwap.lanzoum.com/iIdE632oojgj', '58e5')">下载应用</button>
+                    </li>
+                </ul>
+            </div>
+            
+            <!-- 0.14.3版本应用 -->
+            <div id="version-0.14.3" class="version-content" style="display:none;">
+                <ul class="app-list">
+                    <li class="app-item">
+                        <div class="app-header">
+                            <h3 class="app-name">KLF改版</h3>
+                            <div class="app-version">版本: 0.14.3</div>
+                        </div>
+                        <p class="app-desc">KLF制作的0.14.3改版客户端</p>
+                        <div class="app-features">
+                            <span class="feature-tag">功能增强</span>
+                            <span class="feature-tag">性能优化</span>
+                            <span class="feature-tag">界面改进</span>
+                        </div>
+                        <p class="app-req"><strong>适配要求:</strong> Android 4.0及以上</p>
+                        <button class="download-btn" onclick="showDownload('KLF改版', '0.14.3', 'https://wwap.lanzoum.com/iOCwp32ooued', '8cxh')">下载应用</button>
+                    </li>
+                    
+                    <li class="app-item">
+                        <div class="app-header">
+                            <h3 class="app-name">114514改版</h3>
+                            <div class="app-version">版本: 0.14.3</div>
+                        </div>
+                        <p class="app-desc">来自114514开朗网友的0.14改版</p>
+                        <div class="app-features">
+                            <span class="feature-tag">功能增强</span>
+                            <span class="feature-tag">稳定性提升</span>
+                            <span class="feature-tag">自定义内容</span>
+                        </div>
+                        <p class="app-req"><strong>适配要求:</strong> Android 4.0及以上</p>
+                        <button class="download-btn" onclick="showDownload('114514改版', '0.14.3', 'https://wwap.lanzoum.com/iXohX32ootoh', 'botz')">下载应用</button>
+                    </li>
+                    
+                    <li class="app-item">
+                        <div class="app-header">
+                            <h3 class="app-name">GrayClient</h3>
+                            <div class="app-version">版本: 2u03</div>
+                        </div>
+                        <p class="app-desc">GrayClient灰色客户端最新版</p>
+                        <div class="app-features">
+                            <span class="feature-tag">灰色主题</span>
+                            <span class="feature-tag">功能优化</span>
+                            <span class="feature-tag">自定义设置</span>
+                        </div>
+                        <p class="app-req"><strong>适配要求:</strong> Android 4.0及以上</p>
+                        <button class="download-btn" onclick="showDownload('GrayClient', '2u03', 'https://wwap.lanzoum.com/iMdyi32oos1i', '59er')">下载应用</button>
+                    </li>
+                    
+                    <li class="app-item">
+                        <div class="app-header">
+                            <h3 class="app-name">五边形纹理包</h3>
+                            <div class="app-version">版本: 0.14.3</div>
+                        </div>
+                        <p class="app-desc">Minecraft PE五边形纹理包</p>
+                        <div class="app-features">
+                            <span class="feature-tag">五边形纹理</span>
+                            <span class="feature-tag">高清材质</span>
+                            <span class="feature-tag">视觉升级</span>
+                        </div>
+                        <p class="app-req"><strong>适配要求:</strong> Android 4.0及以上</p>
+                        <button class="download-btn" onclick="showDownload('五边形纹理包', '0.14.3', 'https://wwap.lanzoum.com/im6Nc32ooqch', '1uvq')">下载应用</button>
+                    </li>
+                    
+                    <li class="app-item">
+                        <div class="app-header">
+                            <h3 class="app-name">FPS显示+流量</h3>
+                            <div class="app-version">版本: 0.14.3</div>
+                        </div>
+                        <p class="app-desc">显示FPS并支持流量连接</p>
+                        <div class="app-features">
+                            <span class="feature-tag">FPS显示</span>
+                            <span class="feature-tag">流量支持</span>
+                            <span class="feature-tag">性能监控</span>
+                        </div>
+                        <p class="app-req"><strong>适配要求:</strong> Android 4.0及以上</p>
+                        <button class="download-btn" onclick="showDownload('FPS显示+流量', '0.14.3', 'https://wwap.lanzoum.com/iWugN32oooad', 'i1it')">下载应用</button>
+                    </li>
+                    
+                    <li class="app-item">
+                        <div class="app-header">
+                            <h3 class="app-name">流量服务器支持</h3>
+                            <div class="app-version">版本: 0.14.3</div>
+                        </div>
+                        <p class="app-desc">支持使用流量进入服务器，Lun修改版</p>
+                        <div class="app-features">
+                            <span class="feature-tag">流量支持</span>
+                            <span class="feature-tag">服务器优化</span>
+                            <span class="feature-tag">Lun修改</span>
+                        </div>
+                        <p class="app-req"><strong>适配要求:</strong> Android 4.0及以上</p>
+                        <button class="download-btn" onclick="showDownload('流量服务器支持', '0.14.3', 'https://wwap.lanzoum.com/iUV8O32oonre', '96h6')">下载应用</button>
+                    </li>
+                    
+                    <li class="app-item">
+                        <div class="app-header">
+                            <h3 class="app-name">宽字修复共存版</h3>
+                            <div class="app-version">版本: 0.14.3</div>
+                        </div>
+                        <p class="app-desc">原版优化，修复宽字体显示问题</p>
+                        <div class="app-features">
+                            <span class="feature-tag">宽字修复</span>
+                            <span class="feature-tag">共存版</span>
+                            <span class="feature-tag">原版优化</span>
+                        </div>
+                        <p class="app-req"><strong>适配要求:</strong> Android 4.0及以上</p>
+                        <button class="download-btn" onclick="showDownload('宽字修复共存版', '0.14.3', 'https://wwap.lanzoum.com/iamHh32oon6d', '14yw')">下载应用</button>
+                    </li>
+                    
+                    <li class="app-item">
+                        <div class="app-header">
+                            <h3 class="app-name">低版本兼容包</h3>
+                            <div class="app-version">版本: 0.14.3</div>
+                        </div>
+                        <p class="app-desc">安卓2.3-4.2专用纯原版包</p>
+                        <div class="app-features">
+                            <span class="feature-tag">低版本兼容</span>
+                            <span class="feature-tag">纯原版</span>
+                            <span class="feature-tag">Android 2.3-4.2</span>
+                        </div>
+                        <p class="app-req"><strong>适配要求:</strong> Android 2.3-4.2专用</p>
+                        <button class="download-btn" onclick="showDownload('低版本兼容包', '0.14.3', 'https://wwap.lanzoum.com/igUDa32oom4f', '3ci7')">下载应用</button>
+                    </li>
+                    
+                    <li class="app-item">
+                        <div class="app-header">
+                            <h3 class="app-name">我的世界PE Start</h3>
+                            <div class="app-version">版本: 1.1</div>
+                        </div>
+                        <p class="app-desc">Start客户端早期版本</p>
+                        <div class="app-features">
+                            <span class="feature-tag">Start客户端</span>
+                            <span class="feature-tag">功能增强</span>
+                            <span class="feature-tag">早期版本</span>
+                        </div>
+                        <p class="app-req"><strong>适配要求:</strong> Android 4.0及以上</p>
+                        <button class="download-btn" onclick="showDownload('我的世界PE Start', '1.1', 'https://wwap.lanzoum.com/iD3k232oo18d', 'f1g2')">下载应用</button>
+                    </li>
+                    
+                    <li class="app-item">
+                        <div class="app-header">
+                            <h3 class="app-name">START最终加密版</h3>
+                            <div class="app-version">版本: V1.6</div>
+                        </div>
+                        <p class="app-desc">START客户端最终加密版本</p>
+                        <div class="app-features">
+                            <span class="feature-tag">加密版</span>
+                            <span class="feature-tag">最终版</span>
+                            <span class="feature-tag">功能完整</span>
+                        </div>
+                        <p class="app-req"><strong>适配要求:</strong> Android 4.0及以上</p>
+                        <button class="download-btn" onclick="showDownload('START最终加密版', 'V1.6', 'https://wwap.lanzoum.com/iGrKE32onybi', 'i0ko')">下载应用</button>
+                    </li>
+                    
+                    <li class="app-item">
+                        <div class="app-header">
+                            <h3 class="app-name">START客户端</h3>
+                            <div class="app-version">版本: 1.3</div>
+                        </div>
+                        <p class="app-desc">START客户端1.3版本</p>
+                        <div class="app-features">
+                            <span class="feature-tag">Start客户端</span>
+                            <span class="feature-tag">功能增强</span>
+                            <span class="feature-tag">1.3版本</span>
+                        </div>
+                        <p class="app-req"><strong>适配要求:</strong> Android 4.0及以上</p>
+                        <button class="download-btn" onclick="showDownload('START客户端', '1.3', 'https://wwap.lanzoum.com/i1WKL32onw1g', '8d3a')">下载应用</button>
+                    </li>
+                    
+                    <li class="app-item">
+                        <div class="app-header">
+                            <h3 class="app-name">START客户端最终版</h3>
+                            <div class="app-version">版本: 1.5</div>
+                        </div>
+                        <p class="app-desc">START客户端1.5最终版本</p>
+                        <div class="app-features">
+                            <span class="feature-tag">最终版</span>
+                            <span class="feature-tag">功能完整</span>
+                            <span class="feature-tag">性能优化</span>
+                        </div>
+                        <p class="app-req"><strong>适配要求:</strong> Android 4.0及以上</p>
+                        <button class="download-btn" onclick="showDownload('START客户端最终版', '1.5', 'https://wwap.lanzoum.com/iVlel32onu6j', 'ftdo')">下载应用</button>
+                    </li>
+                    
+                    <li class="app-item">
+                        <div class="app-header">
+                            <h3 class="app-name">START窄屏版</h3>
+                            <div class="app-version">版本: V1.4</div>
+                        </div>
+                        <p class="app-desc">适用于较窄屏幕的START客户端</p>
+                        <div class="app-features">
+                            <span class="feature-tag">窄屏适配</span>
+                            <span class="feature-tag">V1.4</span>
+                            <span class="feature-tag">界面优化</span>
+                        </div>
+                        <p class="app-req"><strong>适配要求:</strong> Android 4.0及以上</p>
+                        <button class="download-btn" onclick="showDownload('START窄屏版', 'V1.4', 'https://wwap.lanzoum.com/ig3pm32onsja', '50k2')">下载应用</button>
+                    </li>
+                    
+                    <li class="app-item">
+                        <div class="app-header">
+                            <h3 class="app-name">START宽屏版</h3>
+                            <div class="app-version">版本: V1.4</div>
+                        </div>
+                        <p class="app-desc">适用于宽屏幕的START客户端</p>
+                        <div class="app-features">
+                            <span class="feature-tag">宽屏适配</span>
+                            <span class="feature-tag">V1.4</span>
+                            <span class="feature-tag">界面优化</span>
+                        </div>
+                        <p class="app-req"><strong>适配要求:</strong> Android 4.0及以上</p>
+                        <button class="download-btn" onclick="showDownload('START宽屏版', 'V1.4', 'https://wwap.lanzoum.com/irmAi32onpwf', 'bxby')">下载应用</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- iOS内容区域 -->
+        <div id="ios-section" class="content" style="display:none;">
+            <h2>iOS版本下载</h2>
+            
+            <ul class="app-list">
+                <li class="app-item">
+                    <div class="app-header">
+                        <h3 class="app-name">MCPE原版</h3>
+                        <div class="app-version">版本: 0.14.3</div>
+                    </div>
+                    <p class="app-desc">iOS原版MCPE客户端</p>
+                    <div class="app-features">
+                        <span class="feature-tag">原版体验</span>
+                        <span class="feature-tag">iOS兼容</span>
+                        <span class="feature-tag">稳定运行</span>
+                    </div>
+                    <p class="app-req"><strong>适配要求:</strong> iOS 7.0及以上</p>
+                    <button class="download-btn" onclick="showDownload('MCPE原版', '0.14.3', 'https://wwap.lanzoum.com/i2Hqd32opa3i', 'd4ah')">下载应用</button>
+                </li>
+                
+                <li class="app-item">
+                    <div class="app-header">
+                        <h3 class="app-name">START越狱共存版</h3>
+                        <div class="app-version">版本: iOS6+</div>
+                    </div>
+                    <p class="app-desc">START客户端iOS6+越狱共存版</p>
+                    <div class="app-features">
+                        <span class="feature-tag">越狱版</span>
+                        <span class="feature-tag">iOS6+</span>
+                        <span class="feature-tag">共存版</span>
+                    </div>
+                    <p class="app-req"><strong>适配要求:</strong> iOS 6及以上越狱设备</p>
+                    <button class="download-btn" onclick="showDownload('START越狱共存版', 'iOS6+', 'https://wwap.lanzoum.com/ivet632op8wf', 'cjdc')">下载应用</button>
+                </li>
+                
+                <li class="app-item">
+                    <div class="app-header">
+                        <h3 class="app-name">START客户端</h3>
+                        <div class="app-version">版本: v1.5</div>
+                    </div>
+                    <p class="app-desc">START客户端iOS v1.5版本</p>
+                    <div class="app-features">
+                        <span class="feature-tag">Start客户端</span>
+                        <span class="feature-tag">功能增强</span>
+                        <span class="feature-tag">v1.5</span>
+                    </div>
+                    <p class="app-req"><strong>适配要求:</strong> iOS 7.0及以上</p>
+                    <button class="download-btn" onclick="showDownload('START客户端', 'v1.5', 'https://wwap.lanzoum.com/igFx932op6bc', 'gghe')">下载应用</button>
+                </li>
+                
+                <li class="app-item">
+                    <div class="app-header">
+                        <h3 class="app-name">Start Lite版</h3>
+                        <div class="app-version">版本: 1.9</div>
+                    </div>
+                    <p class="app-desc">Start客户端精简Lite版本</p>
+                    <div class="app-features">
+                        <span class="feature-tag">Lite版</span>
+                        <span class="feature-tag">轻量级</span>
+                        <span class="feature-tag">性能优化</span>
+                    </div>
+                    <p class="app-req"><strong>适配要求:</strong> iOS 7.0及以上</p>
+                    <button class="download-btn" onclick="showDownload('Start Lite版', '1.9', 'https://wwap.lanzoum.com/i1tes32op3tc', '1hwj')">下载应用</button>
+                </li>
+                
+                <li class="app-item">
+                    <div class="app-header">
+                        <h3 class="app-name">超赞光影</h3>
+                        <div class="app-version">版本: 0.14.1</div>
+                    </div>
+                    <p class="app-desc">0.14.1超赞光影效果版</p>
+                    <div class="app-features">
+                        <span class="feature-tag">光影效果</span>
+                        <span class="feature-tag">视觉增强</span>
+                        <span class="feature-tag">iOS专属</span>
+                    </div>
+                    <p class="app-req"><strong>适配要求:</strong> iOS 7.0及以上</p>
+                    <button class="download-btn" onclick="showDownload('超赞光影', '0.14.1', 'https://wwap.lanzoum.com/iXemz32op1ta', 'fbs3')">下载应用</button>
+                </li>
+            </ul>
+        </div>
+    </div>
+    
+    <!-- 下载模态框 -->
+    <div id="downloadModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <h2 class="modal-title">下载信息</h2>
+            <div class="info-item">
+                <span class="info-label">名称:</span>
+                <span class="info-value" id="modalName"></span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">版本:</span>
+                <span class="info-value" id="modalVersion"></span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">密码:</span>
+                <span class="info-value" id="modalPassword"></span>
+            </div>
+            <a href="#" id="modalLink" class="modal-download" target="_blank">立即下载</a>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <div class="footer-tabs">
+            <a href="#" class="footer-tab active" onclick="switchTab('android'); return false;">安卓版本</a>
+            <a href="#" class="footer-tab" onclick="switchTab('ios'); return false;">iOS版本</a>
+        </div>
+        <div class="copyright">© 2025 幻方MC下载站 - 兼容旧设备版本</div>
+    </div>
+
+    <script type="text/javascript">
+        // 切换平台选项卡
+        function switchTab(tab) {
+            // 隐藏所有内容区域
+            document.getElementById('android-section').style.display = 'none';
+            document.getElementById('ios-section').style.display = 'none';
+            
+            // 移除所有导航按钮的活动状态
+            var navBtns = document.querySelectorAll('.nav-btn');
+            for (var i = 0; i < navBtns.length; i++) {
+                navBtns[i].className = navBtns[i].className.replace(' active', '');
+            }
+            
+            // 移除所有页脚选项卡的活动状态
+            var footerTabs = document.querySelectorAll('.footer-tab');
+            for (var i = 0; i < footerTabs.length; i++) {
+                footerTabs[i].className = footerTabs[i].className.replace(' active', '');
+            }
+            
+            // 显示选中的内容区域
+            document.getElementById(tab + '-section').style.display = 'block';
+            
+            // 设置选中的导航按钮为活动状态
+            var activeNavBtn = document.querySelector('.nav-btn[onclick*="' + tab + '"]');
+            if (activeNavBtn) {
+                activeNavBtn.className += ' active';
+            }
+            
+            // 设置选中的页脚选项卡为活动状态
+            var activeFooterTab = document.querySelector('.footer-tab[onclick*="' + tab + '"]');
+            if (activeFooterTab) {
+                activeFooterTab.className += ' active';
+            }
+            
+            // 滚动到顶部
+            window.scrollTo(0, 0);
+        }
+        
+        // 切换版本
+        function switchVersion(version) {
+            // 隐藏所有版本内容
+            var versionContents = document.querySelectorAll('.version-content');
+            for (var i = 0; i < versionContents.length; i++) {
+                versionContents[i].style.display = 'none';
+            }
+            
+            // 移除所有版本按钮的活动状态
+            var versionBtns = document.querySelectorAll('.version-btn');
+            for (var i = 0; i < versionBtns.length; i++) {
+                versionBtns[i].className = versionBtns[i].className.replace(' active', '');
+            }
+            
+            // 显示选中的版本内容
+            document.getElementById('version-' + version).style.display = 'block';
+            
+            // 设置选中的版本按钮为活动状态
+            var activeVersionBtn = document.querySelector('.version-btn[onclick*="' + version + '"]');
+            if (activeVersionBtn) {
+                activeVersionBtn.className += ' active';
+            }
+        }
+        
+        // 显示下载模态框
+        function showDownload(name, version, url, password) {
+            document.getElementById('modalName').innerHTML = name;
+            document.getElementById('modalVersion').innerHTML = version;
+            document.getElementById('modalPassword').innerHTML = password;
+            document.getElementById('modalLink').href = url;
+            
+            document.getElementById('downloadModal').style.display = 'block';
+        }
+        
+        // 关闭模态框
+        function closeModal() {
+            document.getElementById('downloadModal').style.display = 'none';
+        }
+        
+        // 点击模态框外部关闭
+        window.onclick = function(event) {
+            var modal = document.getElementById('downloadModal');
+            if (event.target == modal) {
+                closeModal();
+            }
+        };
+    </script>
+</body>
+</html>
