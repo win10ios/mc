@@ -5,60 +5,68 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>幻方MC下载站</title>
     <script>
-        // 增强版浏览器检测与跳转 - 放在最前面执行
+        // 更精确的浏览器检测与跳转
         (function() {
-            // 更全面的旧设备检测
+            // 检测是否需要跳转到旧版页面
             function shouldRedirectToOldVersion() {
                 const userAgent = navigator.userAgent;
+                console.log("User Agent:", userAgent);
                 
                 // 检测Trident内核（IE）
                 if (/MSIE|Trident/.test(userAgent)) {
                     const ieVersion = userAgent.match(/(MSIE |rv:)(\d+(\.\d+)?)/);
                     if (ieVersion && parseInt(ieVersion[2]) < 10) {
+                        console.log("Redirecting: Old IE version");
                         return true;
                     }
                 }
                 
-                // 检测iOS旧版本
+                // 检测iOS旧版本 (iOS 8及以下)
                 if (/iP(hone|od|ad)/.test(userAgent)) {
-                    const osVersion = /OS (\d+)_(\d+)_?(\d+)?/.exec(userAgent);
-                    if (osVersion && parseInt(osVersion[1]) < 9) {
+                    const osVersionMatch = userAgent.match(/OS (\d+)_(\d+)_?(\d+)?/);
+                    if (osVersionMatch && parseInt(osVersionMatch[1]) < 9) {
+                        console.log("Redirecting: Old iOS version");
                         return true;
                     }
                 }
                 
-                // 检测Android旧版本
+                // 检测Android旧版本 (4.4及以下)
                 if (/Android/.test(userAgent)) {
-                    const androidVersion = /Android (\d+)(?:\.(\d+))?/.exec(userAgent);
-                    if (androidVersion && parseInt(androidVersion[1]) < 5) {
+                    const androidVersionMatch = userAgent.match(/Android (\d+)(?:\.(\d+))?/);
+                    if (androidVersionMatch && parseInt(androidVersionMatch[1]) < 5) {
+                        console.log("Redirecting: Old Android version");
                         return true;
                     }
                 }
                 
-                // 检测旧版WebKit引擎
-                if (/AppleWebKit/.test(userAgent)) {
-                    const webkitVersion = /AppleWebKit\/(\d+)/.exec(userAgent);
-                    if (webkitVersion && parseInt(webkitVersion[1]) < 600) {
+                // 检测旧版Chrome (49及以下)
+                if (/Chrome\/(\d+)/.test(userAgent)) {
+                    const chromeVersion = parseInt(userAgent.match(/Chrome\/(\d+)/)[1]);
+                    if (chromeVersion < 50) {
+                        console.log("Redirecting: Old Chrome version");
                         return true;
                     }
                 }
                 
-                // 检测旧版Firefox
-                if (/Firefox/.test(userAgent)) {
-                    const firefoxVersion = /Firefox\/(\d+)/.exec(userAgent);
-                    if (firefoxVersion && parseInt(firefoxVersion[1]) < 50) {
+                // 检测旧版Firefox (50及以下)
+                if (/Firefox\/(\d+)/.test(userAgent)) {
+                    const firefoxVersion = parseInt(userAgent.match(/Firefox\/(\d+)/)[1]);
+                    if (firefoxVersion < 50) {
+                        console.log("Redirecting: Old Firefox version");
                         return true;
                     }
                 }
                 
-                // 检测旧版Chrome
-                if (/Chrome/.test(userAgent)) {
-                    const chromeVersion = /Chrome\/(\d+)/.exec(userAgent);
-                    if (chromeVersion && parseInt(chromeVersion[1]) < 50) {
+                // 检测旧版Safari (9及以下)
+                if (/Safari/.test(userAgent) && !/Chrome/.test(userAgent)) {
+                    const safariVersionMatch = userAgent.match(/Version\/(\d+)(?:\.(\d+))?/);
+                    if (safariVersionMatch && parseInt(safariVersionMatch[1]) < 10) {
+                        console.log("Redirecting: Old Safari version");
                         return true;
                     }
                 }
                 
+                console.log("No redirect needed: Modern browser");
                 return false;
             }
             
