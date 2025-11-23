@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>huisue 基岩版服务器官网</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin:0; font-family:'Poppins',sans-serif;
+      background: linear-gradient(135deg,#0b0f17,#1a2238);
+      color:#e6eefc;
+    }
+    /* 顶部导航 */
+    nav {
+      background:#121826; padding:15px; position:sticky; top:0; z-index:1000;
+      display:flex; justify-content:space-between; align-items:center;
+    }
+    nav .logo { font-weight:600; color:#00d4ff; }
+    nav ul { list-style:none; margin:0; padding:0; display:flex; }
+    nav li { margin:0 10px; }
+    nav a {
+      color:#7cffc4; text-decoration:none; font-weight:600; padding:8px 12px;
+      border-radius:6px; transition:background .3s,color .3s;
+    }
+    nav a:hover { background:#1f2a48; color:#00d4ff; }
+    /* 汉堡按钮 */
+    .menu-toggle { display:none; cursor:pointer; font-size:22px; color:#7cffc4; }
+    @media(max-width:768px){
+      nav ul {
+        display:none; flex-direction:column; background:#121826;
+        position:absolute; top:60px; right:0; width:220px;
+        transform:translateX(100%); transition:transform .3s ease;
+      }
+      nav ul.show { display:flex; transform:translateX(0); }
+      nav li { margin:10px; }
+      .menu-toggle { display:block; }
+    }
+    header, section { padding:60px 20px; max-width:1000px; margin:auto; }
+    h1,h2 { color:#00d4ff; margin-bottom:20px; }
+    /* 卡片布局 */
+    .card {
+      background:#121826; border-radius:12px; padding:25px; margin:20px 0;
+      box-shadow:0 6px 20px rgba(0,0,0,.3);
+    }
+    .grid {
+      display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:20px;
+    }
+    .subcard {
+      background:#0f1830; border-radius:10px; padding:15px;
+      text-align:center; box-shadow:0 4px 12px rgba(0,0,0,.2);
+    }
+    .subcard h3 { margin:0; font-size:16px; color:#9bb0d3; }
+    .subcard p { margin:8px 0 0; font-size:16px; }
+    .players span {
+      display:inline-block; background:#1f2a48; padding:6px 12px;
+      border-radius:20px; margin:6px; font-size:14px;
+    }
+    .btn {
+      display:inline-block; background:#00d4ff; color:#0b0f17;
+      padding:10px 20px; border-radius:8px; font-weight:600;
+      text-decoration:none; transition:transform .2s,box-shadow .2s;
+    }
+    .btn:hover { transform:translateY(-2px); box-shadow:0 6px 12px rgba(0,212,255,.4); }
+    footer { text-align:center; padding:20px; color:#9bb0d3; background:#121826; }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="logo">huisue</div>
+    <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+    <ul id="menu">
+      <li><a href="#home">首页</a></li>
+      <li><a href="#features">特色</a></li>
+      <li><a href="#rules">规则</a></li>
+      <li><a href="#download">客户端下载</a></li>
+      <li><a href="#contact">联系我们</a></li>
+    </ul>
+  </nav>
+
+  <header id="home">
+    <h1>欢迎来到 huisue 基岩版服务器</h1>
+    <p>体验独特的生存挑战，享受稳定流畅的游戏环境与友好的社区氛围。</p>
+    <div class="card">
+      <h2>服务器实时状态</h2>
+      <div class="grid">
+        <div class="subcard"><h3>状态</h3><p id="status">加载中...</p></div>
+        <div class="subcard"><h3>在线人数</h3><p id="players">...</p></div>
+        <div class="subcard"><h3>版本</h3><p id="version">...</p></div>
+        <div class="subcard"><h3>延迟</h3><p id="latency">...</p></div>
+      </div>
+      <div class="subcard" style="margin-top:20px;">
+        <h3>MOTD</h3><p id="motd">...</p>
+      </div>
+      <div class="subcard" style="margin-top:20px;">
+        <h3>在线玩家</h3><div class="players" id="playersList"></div>
+      </div>
+    </div>
+  </header>
+
+  <section id="features">
+    <h2>服务器特色</h2>
+    <div class="card">
+      <ul>
+        <li>独特的生存玩法，增加挑战与乐趣</li>
+        <li>公平环境：严格反作弊系统</li>
+        <li>友好的玩家社区，不再孤单</li>
+        <li>高性能硬件，流畅运行</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="rules">
+    <h2>服务器规则</h2>
+    <div class="card">
+      <ol>
+        <li>禁止外挂或利用漏洞</li>
+        <li>尊重其他玩家，禁止辱骂骚扰</li>
+        <li>禁止恶意破坏或偷窃</li>
+        <li>禁止刷屏或垃圾信息</li>
+        <li>禁止不当用户名或皮肤</li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="download">
+    <h2>客户端下载</h2>
+    <div class="card grid">
+      <div class="subcard">
+        <h3>Windows</h3>
+        <p>适用于 PC 玩家</p>
+        <a class="btn" href="#">下载</a>
+      </div>
+      <div class="subcard">
+        <h3>Android</h3>
+        <p>适用于安卓设备</p>
+        <a class="btn" href="#">下载</a>
+      </div>
+      <div class="subcard">
+        <h3>iOS</h3>
+        <p>适用于苹果设备</p>
+        <a class="btn" href="#">下载</a>
+      </div>
+    </div>
+    <p style="margin-top:20px;"><strong>服务器地址：</strong> huisue.frii.site:16884 (基岩版)</p>
+  </section>
+
+  <section id="contact">
+    <h2>联系我们</h2>
+    <div class="card">
+      <p>加入玩家社区，或访问 <a href="http://huisue.frii.site" style="color:#7cffc4;">官网链接</a> 获取更多信息。</p>
+    </div>
+  </section>
+
+  <footer>
+    © 2025 huisue | 版权所有
+  </footer>
+
+  <script>
+    function toggleMenu(){
+      document.getElementById("menu").classList.toggle("show");
+    }
+    const API_URL = "https://api.mcsrvstat.us/bedrock/2/huisue.frii.site:16884";
+    async function loadStatus(){
+      try {
+        const res = await fetch(API_URL);
+        const data = await res.json();
+        document.getElementById("status").textContent = data.online ? "在线" : "离线";
+        document.getElementById("players").textContent = `${data.players?.online || 0} / ${data.players?.max || "?"}`;
+        document.getElementById("version").textContent = data.version || "未知";
+        document.getElementById("latency").
+        <script>
+    function toggleMenu(){
+      document.getElementById("menu").classList.toggle("show");
+    }
+    const API_URL = "https://api.mcsrvstat.us/bedrock/2/huisue.frii.site:16884";
+    async function loadStatus(){
+      try {
+        const res = await fetch(API_URL);
+        const data = await res.json();
+        document.getElementById("status").textContent = data.online ? "在线" : "离线";
+        document.getElementById("players").textContent = `${data.players?.online || 0} / ${data.players?.max || "?"}`;
+        document.getElementById("version").textContent = data.version || "未知";
+        document.getElementById("latency").textContent = (data.debug?.ping || "?") + " ms";
+        document.getElementById("motd").textContent = data.motd?.clean?.join(" ") || "无";
+        const list = data.players?.list || [];
+        document.getElementById("playersList").innerHTML = list.map(n=>`<span>${n}</span>`).join("");
+      } catch(e){
+        document.getElementById("status").textContent = "获取失败";
+        document.getElementById("players").textContent = "—";
+        document.getElementById("version").textContent = "—";
+        document.getElementById("latency").textContent = "—";
+        document.getElementById("motd").textContent = "—";
+        document.getElementById("playersList").innerHTML = `<span>暂无数据</span>`;
+      }
+    }
+    loadStatus();
+    setInterval(loadStatus, 15000);
+  </script>
+</body>
+</html>
